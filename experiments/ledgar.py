@@ -8,7 +8,7 @@ import random
 import sys
 
 # TODO: Add PYTHONPATH
-py_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+py_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 sys.path.insert(0, py_path)
 
 from dataclasses import dataclass, field
