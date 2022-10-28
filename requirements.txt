@@ -7,3 +7,4 @@ datasets>=1.18.1
 nltk>=3.5
 scipy>=1.6.3
 codecarbon==2.1.4
+filelock==3.8.0
