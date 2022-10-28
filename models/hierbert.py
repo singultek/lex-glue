@@ -44,12 +44,19 @@ class HierarchicalBert(nn.Module):
                                                padding_idx=0,
                                                _weight=sinusoidal_init(max_segments + 1, encoder.config.hidden_size))
         # Init segment-wise transformer-based encoder
-        self.seg_encoder = nn.Transformer(d_model=encoder.config.hidden_size,
+        """self.seg_encoder = nn.Transformer(d_model=encoder.config.hidden_size,
                                           nhead=encoder.config.num_attention_heads,
                                           batch_first=True, dim_feedforward=encoder.config.intermediate_size,
                                           activation=encoder.config.hidden_act,
                                           dropout=encoder.config.hidden_dropout_prob,
                                           layer_norm_eps=encoder.config.layer_norm_eps,
+                                          num_encoder_layers=2, num_decoder_layers=0).encoder"""
+        # TODO: Change
+        self.seg_encoder = nn.Transformer(d_model=encoder.config.hidden_size,
+                                          nhead=encoder.config.num_attention_heads,
+                                          dim_feedforward=encoder.config.intermediate_size,
+                                          activation=encoder.config.hidden_act,
+                                          dropout=encoder.config.hidden_dropout_prob,
                                           num_encoder_layers=2, num_decoder_layers=0).encoder
 
     def forward(self,
@@ -107,6 +114,7 @@ class HierarchicalBert(nn.Module):
 
 if __name__ == "__main__":
     from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification
+
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
 
     # Use as a stand-alone encoder
@@ -140,4 +148,3 @@ if __name__ == "__main__":
 
     # 4 document outputs with 10 (num_labels) logits are expected
     assert output.logits.shape == torch.Size([4, 10])
-

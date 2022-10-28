@@ -6,6 +6,11 @@ import logging
 import os
 import random
 import sys
+
+# TODO: Add PYTHONPATH
+py_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+sys.path.insert(0, py_path)
+
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -34,6 +39,7 @@ from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
 
+from codecarbon import EmissionsTracker
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.9.0")
@@ -57,7 +63,7 @@ class DataTrainingArguments:
         default=512,
         metadata={
             "help": "The maximum total input sequence length after tokenization. Sequences longer "
-            "than this will be truncated, sequences shorter will be padded."
+                    "than this will be truncated, sequences shorter will be padded."
         },
     )
     overwrite_cache: bool = field(
@@ -67,28 +73,34 @@ class DataTrainingArguments:
         default=True,
         metadata={
             "help": "Whether to pad all samples to `max_seq_length`. "
-            "If False, will pad the samples dynamically when batching to the maximum length in the batch."
+                    "If False, will pad the samples dynamically when batching to the maximum length in the batch."
         },
     )
     max_train_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of training examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     max_eval_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of evaluation examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     max_predict_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of prediction examples to this "
-            "value if set."
+                    "value if set."
+        },
+    )
+    task: Optional[str] = field(
+        default='eurlex',
+        metadata={
+            "help": "Define task"
         },
     )
     server_ip: Optional[str] = field(default=None, metadata={"help": "For distant debugging."})
@@ -130,7 +142,7 @@ class ModelArguments:
         default=False,
         metadata={
             "help": "Will use the token generated when running `transformers-cli login` (necessary to use this script "
-            "with private models)."
+                    "with private models)."
         },
     )
 
@@ -142,6 +154,10 @@ def main():
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+
+    tracker = EmissionsTracker(project_name=f'{model_args.model_name_or_path}_finetuned_{data_args.task}',
+                               api_call_interval=-1)
+    tracker.start()
 
     # Setup distant debugging if needed
     if data_args.server_ip and data_args.server_port:
@@ -172,6 +188,9 @@ def main():
     transformers.utils.logging.set_verbosity(log_level)
     transformers.utils.logging.enable_default_handler()
     transformers.utils.logging.enable_explicit_format()
+
+    # TODO: Additional logging.INFO
+    logger.info(f'The path {py_path} is explicitly inserted to PYTHONPATH in order to import module errors.')
 
     # Log on each process the small summary:
     logger.warning(
@@ -382,11 +401,17 @@ def main():
                     pred_line = '\t'.join([f'{pred:.5f}' for pred in pred_list])
                     writer.write(f"{index}\t{pred_line}\n")
 
-
     # Clean up checkpoints
     checkpoints = [filepath for filepath in glob.glob(f'{training_args.output_dir}/*/') if '/checkpoint' in filepath]
     for checkpoint in checkpoints:
         shutil.rmtree(checkpoint)
+
+    tracker.stop()
+    emission_results = tracker.final_emissions_data
+
+    print(f'Duration(sec): {emission_results.duration} - '
+          f'Energy(KWh): {emission_results.energy_consumed} - '
+          f'Emission CO2(Kg): {emission_results.emissions}')
 
 
 if __name__ == "__main__":
