@@ -6,7 +6,10 @@ import logging
 import os
 import random
 import sys
-sys.path.append('C:\\Users\\sgultekin\\Desktop\\Work\\lex-glue\\lex-glue')
+
+# TODO: Add PYTHONPATH
+py_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+sys.path.insert(0, py_path)
 
 from dataclasses import dataclass, field
 from typing import Optional
@@ -38,7 +41,6 @@ from transformers.utils.versions import require_version
 
 from codecarbon import EmissionsTracker
 
-
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.9.0")
 
@@ -61,7 +63,7 @@ class DataTrainingArguments:
         default=512,
         metadata={
             "help": "The maximum total input sequence length after tokenization. Sequences longer "
-            "than this will be truncated, sequences shorter will be padded."
+                    "than this will be truncated, sequences shorter will be padded."
         },
     )
     overwrite_cache: bool = field(
@@ -71,28 +73,28 @@ class DataTrainingArguments:
         default=True,
         metadata={
             "help": "Whether to pad all samples to `max_seq_length`. "
-            "If False, will pad the samples dynamically when batching to the maximum length in the batch."
+                    "If False, will pad the samples dynamically when batching to the maximum length in the batch."
         },
     )
     max_train_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of training examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     max_eval_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of evaluation examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     max_predict_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of prediction examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     task: Optional[str] = field(
@@ -140,7 +142,7 @@ class ModelArguments:
         default=False,
         metadata={
             "help": "Will use the token generated when running `transformers-cli login` (necessary to use this script "
-            "with private models)."
+                    "with private models)."
         },
     )
 
@@ -186,6 +188,9 @@ def main():
     transformers.utils.logging.set_verbosity(log_level)
     transformers.utils.logging.enable_default_handler()
     transformers.utils.logging.enable_explicit_format()
+
+    # TODO: Additional logging.INFO
+    logger.info(f'The path {py_path} is explicitly inserted to PYTHONPATH in order to import module errors.')
 
     # Log on each process the small summary:
     logger.warning(
@@ -395,7 +400,6 @@ def main():
                 for index, pred_list in enumerate(predictions):
                     pred_line = '\t'.join([f'{pred:.5f}' for pred in pred_list])
                     writer.write(f"{index}\t{pred_line}\n")
-
 
     # Clean up checkpoints
     checkpoints = [filepath for filepath in glob.glob(f'{training_args.output_dir}/*/') if '/checkpoint' in filepath]

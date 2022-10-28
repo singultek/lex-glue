@@ -1,4 +1,4 @@
-GPU_NUMBER=0
+GPU_NUMBER=''
 MODEL_NAME='bert-base-uncased'
 LOWER_CASE='True'
 BATCH_SIZE=2

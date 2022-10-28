@@ -7,7 +7,10 @@ import os
 import random
 import re
 import sys
-sys.path.append('C:\\Users\\sgultekin\\Desktop\\Work\\lex-glue\\lex-glue')
+
+# TODO: Add PYTHONPATH
+py_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+sys.path.insert(0, py_path)
 
 from dataclasses import dataclass, field
 from typing import Optional
@@ -211,6 +214,9 @@ def main():
     transformers.utils.logging.set_verbosity(log_level)
     transformers.utils.logging.enable_default_handler()
     transformers.utils.logging.enable_explicit_format()
+
+    # TODO: Additional logging.INFO
+    logger.info(f'The path {py_path} is explicitly inserted to PYTHONPATH in order to import module errors.')
 
     # Log on each process the small summary:
     logger.warning(
