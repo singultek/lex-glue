@@ -1,5 +1,5 @@
 GPU_NUMBER=0
-MODEL_NAME='bert-base-uncased'
+MODEL_NAME='nlpaueb/legal-bert-base-uncased'
 LOWER_CASE='True'
 BATCH_SIZE=2
 ACCUMULATION_STEPS=4

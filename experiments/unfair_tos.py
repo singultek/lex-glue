@@ -41,6 +41,8 @@ from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
 
 from codecarbon import EmissionsTracker
+from utils.print_emissions_report import print_emissions_report
+from utils.serialization_unit import SerializationUtils
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -157,9 +159,10 @@ def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
-    tracker = EmissionsTracker(project_name=f'{model_args.model_name_or_path}_finetuned_{data_args.task}',
-                               api_call_interval=-1)
-    tracker.start()
+    logger.info(f"### Emissions Report - Data Preprocessing ###")
+    data_preprocessing_tracker = EmissionsTracker(project_name=f'data_preprocessing_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
+    data_preprocessing_tracker.start()
+    emission_results = {}
 
     # Setup distant debugging if needed
     if data_args.server_ip and data_args.server_port:
@@ -353,6 +356,13 @@ def main():
     else:
         data_collator = None
 
+    data_preprocessing_tracker.stop()
+    emission_results["data_preprocessing"] = data_preprocessing_tracker.final_emissions_data
+
+    logger.info(f"### Emissions Report - Training ###")
+    training_tracker = EmissionsTracker(project_name=f'training_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
+    training_tracker.start()
+
     # Initialize our Trainer
     trainer = MultilabelTrainer(
         model=model,
@@ -385,6 +395,13 @@ def main():
         trainer.save_metrics("train", metrics)
         trainer.save_state()
 
+    training_tracker.stop()
+    emission_results["training"] = training_tracker.final_emissions_data
+
+    logger.info(f"### Emissions Report - Validation ###")
+    validation_tracker = EmissionsTracker(project_name=f'validation_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
+    validation_tracker.start()
+
     # Evaluation
     if training_args.do_eval:
         logger.info("*** Evaluate ***")
@@ -395,6 +412,13 @@ def main():
 
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
+
+    validation_tracker.stop()
+    emission_results["validation"] = validation_tracker.final_emissions_data
+
+    logger.info(f"### Emissions Report - Prediction ###")
+    prediction_tracker = EmissionsTracker(project_name=f'prediction_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
+    prediction_tracker.start()
 
     # Prediction
     if training_args.do_predict:
@@ -423,12 +447,10 @@ def main():
     for checkpoint in checkpoints:
         shutil.rmtree(checkpoint)
 
-    tracker.stop()
-    emission_results = tracker.final_emissions_data
-
-    print(f'Duration(sec): {emission_results.duration} - '
-          f'Energy(KWh): {emission_results.energy_consumed} - '
-          f'Emission CO2(Kg): {emission_results.emissions}')
+    prediction_tracker.stop()
+    emission_results["prediction"] = prediction_tracker.final_emissions_data
+    SerializationUtils.serialize(obj=emission_results, path=os.path.join(training_args.output_dir, f"{model_args.model_name_or_path}_finetuned_{data_args.task}.pkl"))
+    print_emissions_report(emissions_data=emission_results)
 
 
 if __name__ == "__main__":
