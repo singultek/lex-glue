@@ -19,7 +19,7 @@ def main():
     # Required arguments
     parser.add_argument('--dataset',  default='eurlex')
     parser.add_argument('--task_type', default='multi_label')
-    parser.add_argument('--text_limit', default=-1)
+    parser.add_argument('--text_limit', default=512)
     parser.add_argument('--n_classes', default=100)
     config = parser.parse_args()
 
@@ -27,7 +27,7 @@ def main():
         if not os.path.exists(f'logs'):
             os.mkdir(f'logs')
         os.mkdir(f'logs/{config.dataset}')
-    handlers = [logging.FileHandler(f'logs/{config.dataset}/_svm.txt'), logging.StreamHandler()]
+    handlers = [logging.FileHandler(f'logs/{config.dataset}/svm.txt'), logging.StreamHandler()]
     logging.basicConfig(handlers=handlers, level=logging.INFO)
 
     def get_text(dataset):
@@ -53,15 +53,20 @@ def main():
         return augmented_labels
 
     scores = {'micro-f1': [], 'macro-f1': []}
-    dataset = load_dataset('data/lex_glue', config.dataset)
+    dataset = load_dataset('lex_glue', config.dataset)
 
     for seed in range(1, 6):
         if config.task_type == 'multi_label':
             classifier = OneVsRestClassifier(LinearSVC(random_state=seed, max_iter=50000))
-            parameters = {
+            """parameters = {
                 'vect__max_features': [10000, 20000, 40000],
                 'clf__estimator__C': [0.1, 1, 10],
                 'clf__estimator__loss': ('hinge', 'squared_hinge')
+            }"""
+            parameters = {
+                'vect__max_features': [40000],
+                'clf__estimator__C': [1],
+                'clf__estimator__loss': ['squared_hinge']
             }
         else:
             classifier = LinearSVC(random_state=seed, max_iter=50000)
@@ -104,7 +109,7 @@ def main():
         logging.info('VALIDATION RESULTS:')
         y_pred = gs_clf.predict(get_text(dataset['validation']))
         y_true = get_labels(dataset["validation"], mlb)
-        if config.task_type == 'multi_label' and config.dataset != 'eurlex':
+        if config.task_type == 'multi_label':
             y_true = add_zero_class(y_true)
             y_pred = add_zero_class(y_pred)
 
@@ -114,7 +119,7 @@ def main():
         logging.info('TEST RESULTS:')
         y_pred = gs_clf.predict(get_text(dataset['test']))
         y_true = get_labels(dataset["test"], mlb)
-        if config.task_type == 'multi_label' and config.dataset != 'eurlex':
+        if config.task_type == 'multi_label':
             y_true = add_zero_class(y_true)
             y_pred = add_zero_class(y_pred)
         logging.info(f'Micro-F1: {metrics.f1_score(y_true, y_pred, average="micro")*100:.1f}')
@@ -130,4 +135,16 @@ def main():
 
 
 if __name__ == '__main__':
+    from codecarbon import EmissionsTracker
+    tracker = EmissionsTracker(project_name=f'tfidf_eurlex', api_call_interval=-1)
+    tracker.start()
+
     main()
+
+    tracker.stop()
+    emission_results = tracker.final_emissions_data
+
+    print(f'Duration(sec): {emission_results.duration} - '
+          f'Energy(KWh): {emission_results.energy_consumed} - ' 
+          f'Emission CO2(Kg): {emission_results.emissions}')
+

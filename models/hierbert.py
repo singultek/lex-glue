@@ -51,15 +51,6 @@ class HierarchicalBert(nn.Module):
                                           dropout=encoder.config.hidden_dropout_prob,
                                           layer_norm_eps=encoder.config.layer_norm_eps,
                                           num_encoder_layers=2, num_decoder_layers=0).encoder
-        """
-        # TODO: Change
-        self.seg_encoder = nn.Transformer(d_model=encoder.config.hidden_size,
-                                          nhead=encoder.config.num_attention_heads,
-                                          dim_feedforward=encoder.config.intermediate_size,
-                                          activation=encoder.config.hidden_act,
-                                          dropout=encoder.config.hidden_dropout_prob,
-                                          num_encoder_layers=2, num_decoder_layers=0).encoder
-        """
 
     def forward(self,
                 input_ids=None,

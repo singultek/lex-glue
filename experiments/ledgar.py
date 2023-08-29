@@ -6,11 +6,6 @@ import logging
 import os
 import random
 import sys
-
-# TODO: Add PYTHONPATH
-py_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-sys.path.insert(0, py_path)
-
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -39,11 +34,6 @@ from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
 
-from codecarbon import EmissionsTracker
-from utils.print_emissions_report import print_emissions_report
-from utils.serialization_unit import SerializationUtils
-
-
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.9.0")
 
@@ -66,7 +56,7 @@ class DataTrainingArguments:
         default=512,
         metadata={
             "help": "The maximum total input sequence length after tokenization. Sequences longer "
-            "than this will be truncated, sequences shorter will be padded."
+                    "than this will be truncated, sequences shorter will be padded."
         },
     )
     overwrite_cache: bool = field(
@@ -76,34 +66,28 @@ class DataTrainingArguments:
         default=True,
         metadata={
             "help": "Whether to pad all samples to `max_seq_length`. "
-            "If False, will pad the samples dynamically when batching to the maximum length in the batch."
+                    "If False, will pad the samples dynamically when batching to the maximum length in the batch."
         },
     )
     max_train_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of training examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     max_eval_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of evaluation examples to this "
-            "value if set."
+                    "value if set."
         },
     )
     max_predict_samples: Optional[int] = field(
         default=None,
         metadata={
             "help": "For debugging purposes or quicker training, truncate the number of prediction examples to this "
-            "value if set."
-        },
-    )
-    task: Optional[str] = field(
-        default='ledgar',
-        metadata={
-            "help": "Define task"
+                    "value if set."
         },
     )
     server_ip: Optional[str] = field(default=None, metadata={"help": "For distant debugging."})
@@ -145,7 +129,7 @@ class ModelArguments:
         default=False,
         metadata={
             "help": "Will use the token generated when running `transformers-cli login` (necessary to use this script "
-            "with private models)."
+                    "with private models)."
         },
     )
 
@@ -157,11 +141,6 @@ def main():
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-
-    logger.info(f"### Emissions Report - Data Preprocessing ###")
-    data_preprocessing_tracker = EmissionsTracker(project_name=f'data_preprocessing_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
-    data_preprocessing_tracker.start()
-    emission_results = {}
 
     # Setup distant debugging if needed
     if data_args.server_ip and data_args.server_port:
@@ -192,9 +171,6 @@ def main():
     transformers.utils.logging.set_verbosity(log_level)
     transformers.utils.logging.enable_default_handler()
     transformers.utils.logging.enable_explicit_format()
-
-    # TODO: Additional logging.INFO
-    logger.info(f'The path {py_path} is explicitly inserted to PYTHONPATH in order to import module errors.')
 
     # Log on each process the small summary:
     logger.warning(
@@ -342,13 +318,6 @@ def main():
     else:
         data_collator = None
 
-    data_preprocessing_tracker.stop()
-    emission_results["data_preprocessing"] = data_preprocessing_tracker.final_emissions_data
-
-    logger.info(f"### Emissions Report - Training ###")
-    training_tracker = EmissionsTracker(project_name=f'training_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
-    training_tracker.start()
-
     # Initialize our Trainer
     trainer = Trainer(
         model=model,
@@ -363,6 +332,9 @@ def main():
 
     # Training
     if training_args.do_train:
+        tracker = EmissionsTracker()
+        tracker.start()
+        #
         checkpoint = None
         if training_args.resume_from_checkpoint is not None:
             checkpoint = training_args.resume_from_checkpoint
@@ -374,19 +346,19 @@ def main():
             data_args.max_train_samples if data_args.max_train_samples is not None else len(train_dataset)
         )
         metrics["train_samples"] = min(max_train_samples, len(train_dataset))
-
+        #
+        tracker.stop()
+        logger.info("*******************************")
+        logger.info("*** Carbon Footprint Report ***")
+        logger.info("*******************************")
+        print(tracker.final_emissions_data)
+        logger.info("*******************************")
+        #
         trainer.save_model()  # Saves the tokenizer too for easy upload
 
         trainer.log_metrics("train", metrics)
         trainer.save_metrics("train", metrics)
         trainer.save_state()
-
-    training_tracker.stop()
-    emission_results["training"] = training_tracker.final_emissions_data
-
-    logger.info(f"### Emissions Report - Validation ###")
-    validation_tracker = EmissionsTracker(project_name=f'validation_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
-    validation_tracker.start()
 
     # Evaluation
     if training_args.do_eval:
@@ -398,13 +370,6 @@ def main():
 
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
-
-    validation_tracker.stop()
-    emission_results["validation"] = validation_tracker.final_emissions_data
-
-    logger.info(f"### Emissions Report - Prediction ###")
-    prediction_tracker = EmissionsTracker(project_name=f'prediction_{model_args.model_name_or_path}_finetuned_{data_args.task}', api_call_interval=-1)
-    prediction_tracker.start()
 
     # Prediction
     if training_args.do_predict:
@@ -419,23 +384,30 @@ def main():
         trainer.log_metrics("predict", metrics)
         trainer.save_metrics("predict", metrics)
 
-        output_predict_file = os.path.join(training_args.output_dir, "test_predictions.csv")
+        """output_predict_file = os.path.join(training_args.output_dir, "test_predictions.csv")
         if trainer.is_world_process_zero():
             with open(output_predict_file, "w") as writer:
                 for index, pred_list in enumerate(predictions):
                     pred_line = '\t'.join([f'{pred:.5f}' for pred in pred_list])
-                    writer.write(f"{index}\t{pred_line}\n")
+                    writer.write(f"{index}\t{pred_line}\n")"""
 
     # Clean up checkpoints
     checkpoints = [filepath for filepath in glob.glob(f'{training_args.output_dir}/*/') if '/checkpoint' in filepath]
     for checkpoint in checkpoints:
         shutil.rmtree(checkpoint)
 
-    prediction_tracker.stop()
-    emission_results["prediction"] = prediction_tracker.final_emissions_data
-    SerializationUtils.serialize(obj=emission_results, path=os.path.join(training_args.output_dir, f"{model_args.model_name_or_path}_finetuned_{data_args.task}.pkl"))
-    print_emissions_report(emissions_data=emission_results)
-
 
 if __name__ == "__main__":
+    from codecarbon import EmissionsTracker
+
+    tracker = EmissionsTracker(project_name=f'bert_finetuned_ledgar', api_call_interval=-1)
+    tracker.start()
+
     main()
+
+    tracker.stop()
+    emission_results = tracker.final_emissions_data
+
+    print(f'Duration(sec): {emission_results.duration} - '
+          f'Energy(KWh): {emission_results.energy_consumed} - '
+          f'Emission CO2(Kg): {emission_results.emissions}')
