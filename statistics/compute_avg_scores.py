@@ -24,7 +24,8 @@ def main():
 
     score_dicts = {}
     MODELS = ['bert-base-uncased', 'roberta-base', 'microsoft/deberta-base', 'allenai/longformer-base-4096',
-              'google/bigbird-roberta-base', 'nlpaueb/legal-bert-base-uncased', 'zlucia/custom-legalbert', 'roberta-large']
+              'google/bigbird-roberta-base', 'nlpaueb/legal-bert-base-uncased', 'zlucia/custom-legalbert', 'roberta-large',
+              'distilbert-base-uncased']
 
     for model in MODELS:
         score_dict = {'dev': {'micro': [], 'macro': []},
