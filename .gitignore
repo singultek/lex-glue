@@ -133,3 +133,6 @@ dmypy.json
 
 # Log files
 logs/
+
+emissions.csv
+LexGLUE - Experiment results_v1.4_distilbert.xlsx
