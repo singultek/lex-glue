@@ -1,7 +1,7 @@
 GPU_NUMBER=0
 MODEL_NAME='nlpaueb/legal-bert-base-uncased'
 LOWER_CASE='True'
-BATCH_SIZE=2
+BATCH_SIZE=4
 ACCUMULATION_STEPS=4
 TASK='scotus'
 
