@@ -403,7 +403,7 @@ def main():
 
 if __name__ == "__main__":
     from codecarbon import EmissionsTracker
-    tracker = EmissionsTracker(project_name=f'legal_bert_finetuned_unfair_tos', api_call_interval=-1)
+    tracker = EmissionsTracker(project_name=f'bert_finetuned_unfair_tos', gpu_ids=[3], tracking_mode='process', api_call_interval=-1)
     tracker.start()
 
     main()

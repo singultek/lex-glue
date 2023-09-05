@@ -400,7 +400,7 @@ def main():
 if __name__ == "__main__":
     from codecarbon import EmissionsTracker
 
-    tracker = EmissionsTracker(project_name=f'bert_finetuned_ledgar', api_call_interval=-1)
+    tracker = EmissionsTracker(project_name=f'bert_finetuned_ledgar',gpu_ids=[2], tracking_mode='process', api_call_interval=-1)
     tracker.start()
 
     main()
