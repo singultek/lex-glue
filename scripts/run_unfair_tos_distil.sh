@@ -1,4 +1,4 @@
-GPU_NUMBER=0
+GPU_NUMBER=3
 MODEL_NAME='distilbert-base-uncased'
 LOWER_CASE='True'
 BATCH_SIZE=8

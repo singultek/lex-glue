@@ -1,7 +1,7 @@
-GPU_NUMBER=0
+GPU_NUMBER=1
 MODEL_NAME='nlpaueb/legal-bert-base-uncased'
 LOWER_CASE='True'
-BATCH_SIZE=8
+BATCH_SIZE=64
 ACCUMULATION_STEPS=1
 TASK='ledgar'
 
