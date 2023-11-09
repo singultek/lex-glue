@@ -314,7 +314,7 @@ def main():
             out_proj = nn.Linear(config.hidden_size, config.num_labels).to(model.device)
             out_proj.load_state_dict(model.classifier.out_proj.state_dict())  # load weights
             model.classifier = nn.Sequential(dense, dropout, out_proj).to(model.device)
-        elif config.model_type in ['longformer', 'big_bird']:
+        elif config.model_type in ['longformer', 'big_bird', 'gpt2', 'llama', 'mistral']:
             pass
         else:
             raise NotImplementedError(f"{config.model_type} is no supported yet!")
