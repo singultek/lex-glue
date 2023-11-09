@@ -134,6 +134,7 @@ dmypy.json
 # Log files
 logs/
 
+lexvenv
 emissions.csv
 LexGLUE - Experiment results_v1.5_distilbert.xlsx
 production.docx
