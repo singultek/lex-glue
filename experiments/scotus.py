@@ -327,7 +327,8 @@ def main():
         # Tokenize the texts
         if model_args.hierarchical:
             case_template = [[0] * data_args.max_seq_length]
-            if config.model_type == 'roberta':
+            if (config.model_type == 'roberta' or config.model_type == 'gpt2' or
+                    config.model_type == 'llama' or config.model_type == 'mistral'):
                 batch = {'input_ids': [], 'attention_mask': []}
                 for doc in examples['text']:
                     doc = re.split('\n{2,}', doc)
