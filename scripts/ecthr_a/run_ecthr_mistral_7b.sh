@@ -1,4 +1,4 @@
-GPU_NUMBER=0
+GPU_NUMBER=2
 MODEL_NAME='mistralai/Mistral-7B-v0.1'
 LOWER_CASE='True'
 BATCH_SIZE=2
