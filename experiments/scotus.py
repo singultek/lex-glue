@@ -275,7 +275,7 @@ def main():
             revision=model_args.model_revision,
             use_auth_token=True if model_args.use_auth_token else None,
         )
-    if config.model_type == 'gpt2':
+    if config.model_type == 'gpt2' or config.model_type == 'mistral':
         tokenizer.pad_token = tokenizer.eos_token
         model.config.pad_token_id = model.config.eos_token_id
 
@@ -341,7 +341,7 @@ def main():
                 cases = []
                 for case in examples['text']:
                     cases.append(f'\n'.join(case))
-                batch = tokenizer(cases, padding=padding, max_length=512, truncation=True)
+                batch = tokenizer(cases, padding=padding, max_length=data_args.max_seq_length, truncation=True)
             else:
                 batch = {'input_ids': [], 'attention_mask': [], 'token_type_ids': []}
                 for doc in examples['text']:
@@ -369,7 +369,7 @@ def main():
                 global_attention_mask[:, 0] = 1
                 batch['global_attention_mask'] = list(global_attention_mask)
         else:
-            batch = tokenizer(examples['text'], padding=padding, max_length=512, truncation=True)
+            batch = tokenizer(examples['text'], padding=padding, max_length=data_args.max_seq_length, truncation=True)
 
         batch["label"] = [label_list.index(labels) for labels in examples["label"]]
 

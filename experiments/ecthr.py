@@ -348,7 +348,7 @@ def main():
                 cases = []
                 for case in examples['text']:
                     cases.append(f'\n'.join(case))
-                batch = tokenizer(cases, padding=padding, max_length=512, truncation=True)
+                batch = tokenizer(cases, padding=padding, max_length=data_args.max_seq_length, truncation=True)
             else:
                 batch = {'input_ids': [], 'attention_mask': [], 'token_type_ids': []}
                 for case in examples['text']:
@@ -377,7 +377,7 @@ def main():
             cases = []
             for case in examples['text']:
                 cases.append(f'\n'.join(case))
-            batch = tokenizer(cases, padding=padding, max_length=512, truncation=True)
+            batch = tokenizer(cases, padding=padding, max_length=data_args.max_seq_length, truncation=True)
 
         batch["labels"] = [[1 if label in labels else 0 for label in label_list] for labels in examples["labels"]]
 
