@@ -518,7 +518,7 @@ def main():
 if __name__ == "__main__":
     from codecarbon import EmissionsTracker
 
-    tracker = EmissionsTracker(project_name=f'bert_pretrained_ecthr_a', gpu_ids=[2], tracking_mode='process', api_call_interval=-1)
+    tracker = EmissionsTracker(project_name=f'bert_pretrained_ecthr_a', gpu_ids=[2,3], tracking_mode='process', api_call_interval=-1)
     tracker.start()
 
     main()
