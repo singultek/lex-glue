@@ -1,0 +1,83 @@
+[codecarbon INFO @ 08:38:03] [setup] RAM Tracking...
+[codecarbon INFO @ 08:38:03] [setup] GPU Tracking...
+[codecarbon INFO @ 08:38:03] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 08:38:03] [setup] CPU Tracking...
+[codecarbon ERROR @ 08:38:03] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 08:38:03] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 08:38:03] Tracking Intel CPU via RAPL interface
+[codecarbon ERROR @ 08:38:04] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 08:38:04] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 08:38:04] >>> Tracker's metadata:
+[codecarbon INFO @ 08:38:04]   Platform system: Linux-5.15.0-88-generic-x86_64-with-glibc2.35
+[codecarbon INFO @ 08:38:04]   Python version: 3.10.12
+[codecarbon INFO @ 08:38:04]   Available RAM : 503.522 GB
+[codecarbon INFO @ 08:38:04]   CPU count: 104
+[codecarbon INFO @ 08:38:04]   CPU model: Intel(R) Xeon(R) Gold 5320 CPU @ 2.20GHz
+[codecarbon INFO @ 08:38:04]   GPU count: 4
+[codecarbon INFO @ 08:38:04]   GPU model: 4 x NVIDIA RTX A6000
+12/13/2023 08:38:08 - WARNING - __main__ - Process rank: 0, device: cuda:0, n_gpu: 2distributed training: True, 16-bits training: False
+[codecarbon INFO @ 08:38:23] Energy consumed for RAM : 0.000006 kWh. RAM Power : 1.3493914604187012 W
+[codecarbon INFO @ 08:38:23] Energy consumed for all GPUs : 0.000195 kWh. All GPUs Power : 46.56900000000001 W
+[codecarbon INFO @ 08:38:23] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 08:38:23] 0.000200 kWh of electricity used since the begining.
+[codecarbon INFO @ 08:38:38] Energy consumed for RAM : 0.000027 kWh. RAM Power : 5.047584056854248 W
+[codecarbon INFO @ 08:38:38] Energy consumed for all GPUs : 0.000389 kWh. All GPUs Power : 46.649 W
+[codecarbon INFO @ 08:38:38] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 08:38:38] 0.000415 kWh of electricity used since the begining.
+[codecarbon INFO @ 08:38:53] Energy consumed for RAM : 0.000063 kWh. RAM Power : 8.782193183898926 W
+[codecarbon INFO @ 08:38:53] Energy consumed for all GPUs : 0.000583 kWh. All GPUs Power : 46.499 W
+[codecarbon INFO @ 08:38:53] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 08:38:53] 0.000646 kWh of electricity used since the begining.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:08<00:08,  8.30s/it][codecarbon INFO @ 08:39:08] Energy consumed for RAM : 0.000106 kWh. RAM Power : 10.360987186431885 W
+[codecarbon INFO @ 08:39:08] Energy consumed for all GPUs : 0.000776 kWh. All GPUs Power : 46.433 W
+[codecarbon INFO @ 08:39:08] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 08:39:08] 0.000882 kWh of electricity used since the begining.
+Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  5.90s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  6.26s/it]
+[WARNING|modeling_utils.py:3952] 2023-12-13 08:39:08,346 >> Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at NousResearch/Llama-2-7b-hf and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Running tokenizer on prediction dataset:   0%|          | 0/1000 [00:00<?, ? examples/s]Running tokenizer on prediction dataset: 100%|██████████| 1000/1000 [00:01<00:00, 862.34 examples/s]Running tokenizer on prediction dataset: 100%|██████████| 1000/1000 [00:01<00:00, 847.75 examples/s]
+[codecarbon INFO @ 08:39:19] [setup] RAM Tracking...
+[codecarbon INFO @ 08:39:19] [setup] GPU Tracking...
+[codecarbon INFO @ 08:39:19] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 08:39:19] [setup] CPU Tracking...
+[codecarbon ERROR @ 08:39:19] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 08:39:19] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 08:39:19] Tracking Intel CPU via RAPL interface
+[codecarbon ERROR @ 08:39:20] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 08:39:20] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 08:39:20] >>> Tracker's metadata:
+[codecarbon INFO @ 08:39:20]   Platform system: Linux-5.15.0-88-generic-x86_64-with-glibc2.35
+[codecarbon INFO @ 08:39:20]   Python version: 3.10.12
+[codecarbon INFO @ 08:39:20]   Available RAM : 503.522 GB
+[codecarbon INFO @ 08:39:20]   CPU count: 104
+[codecarbon INFO @ 08:39:20]   CPU model: Intel(R) Xeon(R) Gold 5320 CPU @ 2.20GHz
+[codecarbon INFO @ 08:39:20]   GPU count: 4
+[codecarbon INFO @ 08:39:20]   GPU model: 4 x NVIDIA RTX A6000
+[codecarbon INFO @ 08:39:23] Energy consumed for RAM : 0.000110 kWh. RAM Power : 0.9368290901184082 W
+[codecarbon INFO @ 08:39:23] Energy consumed for all GPUs : 0.001172 kWh. All GPUs Power : 95.138 W
+[codecarbon INFO @ 08:39:23] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 08:39:23] 0.001282 kWh of electricity used since the begining.
+  0%|          | 0/5620 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/expertai/Sinan/lex-glue/./experiments/ecthr.py", line 524, in <module>
+    main()
+  File "/home/expertai/Sinan/lex-glue/./experiments/ecthr.py", line 467, in main
+    train_result = trainer.train(resume_from_checkpoint=checkpoint)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/transformers/trainer.py", line 1555, in train
+    return inner_training_loop(
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/transformers/trainer.py", line 1860, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/transformers/trainer.py", line 2734, in training_step
+    self.accelerator.backward(loss)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/accelerate/accelerator.py", line 1923, in backward
+    loss.backward(**kwargs)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 172.00 MiB (GPU 0; 47.54 GiB total capacity; 46.23 GiB already allocated; 146.88 MiB free; 46.28 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+Exception ignored in: <module 'threading' from '/usr/lib/python3.10/threading.py'>
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1567, in _shutdown
+    lock.acquire()
+KeyboardInterrupt: 
+  0%|          | 0/5620 [00:04<?, ?it/s]

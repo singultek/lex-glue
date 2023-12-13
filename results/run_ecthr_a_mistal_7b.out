@@ -1,0 +1,106 @@
+[codecarbon INFO @ 10:30:29] [setup] RAM Tracking...
+[codecarbon INFO @ 10:30:29] [setup] GPU Tracking...
+[codecarbon INFO @ 10:30:29] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 10:30:29] [setup] CPU Tracking...
+[codecarbon ERROR @ 10:30:29] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 10:30:29] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 10:30:29] Tracking Intel CPU via RAPL interface
+[codecarbon ERROR @ 10:30:30] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 10:30:30] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 10:30:30] >>> Tracker's metadata:
+[codecarbon INFO @ 10:30:30]   Platform system: Linux-5.15.0-88-generic-x86_64-with-glibc2.35
+[codecarbon INFO @ 10:30:30]   Python version: 3.10.12
+[codecarbon INFO @ 10:30:30]   Available RAM : 503.522 GB
+[codecarbon INFO @ 10:30:30]   CPU count: 104
+[codecarbon INFO @ 10:30:30]   CPU model: Intel(R) Xeon(R) Gold 5320 CPU @ 2.20GHz
+[codecarbon INFO @ 10:30:30]   GPU count: 4
+[codecarbon INFO @ 10:30:30]   GPU model: 4 x NVIDIA RTX A6000
+11/15/2023 10:30:34 - WARNING - __main__ - Process rank: 0, device: cuda:0, n_gpu: 1distributed training: True, 16-bits training: False
+[codecarbon INFO @ 10:30:49] Energy consumed for RAM : 0.000006 kWh. RAM Power : 1.5304183959960938 W
+[codecarbon INFO @ 10:30:49] Energy consumed for all GPUs : 0.000082 kWh. All GPUs Power : 19.715 W
+[codecarbon INFO @ 10:30:49] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:30:49] 0.000089 kWh of electricity used since the begining.
+[codecarbon INFO @ 10:31:04] Energy consumed for RAM : 0.000029 kWh. RAM Power : 5.453066825866699 W
+[codecarbon INFO @ 10:31:04] Energy consumed for all GPUs : 0.000164 kWh. All GPUs Power : 19.657 W
+[codecarbon INFO @ 10:31:04] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:31:04] 0.000193 kWh of electricity used since the begining.
+[codecarbon INFO @ 10:31:19] Energy consumed for RAM : 0.000068 kWh. RAM Power : 9.403940677642824 W
+[codecarbon INFO @ 10:31:19] Energy consumed for all GPUs : 0.000246 kWh. All GPUs Power : 19.603 W
+[codecarbon INFO @ 10:31:19] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:31:19] 0.000314 kWh of electricity used since the begining.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:05<00:05,  5.37s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:08<00:00,  3.83s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:08<00:00,  4.06s/it]
+[WARNING|modeling_utils.py:3952] 2023-11-15 10:31:31,939 >> Some weights of MistralForSequenceClassification were not initialized from the model checkpoint at mistralai/Mistral-7B-v0.1 and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Running tokenizer on validation dataset:   0%|          | 0/1000 [00:00<?, ? examples/s]Running tokenizer on validation dataset: 100%|██████████| 1000/1000 [00:01<00:00, 921.96 examples/s]Running tokenizer on validation dataset: 100%|██████████| 1000/1000 [00:01<00:00, 902.00 examples/s]
+[codecarbon INFO @ 10:31:34] Energy consumed for RAM : 0.000113 kWh. RAM Power : 10.953317642211914 W
+[codecarbon INFO @ 10:31:34] Energy consumed for all GPUs : 0.000429 kWh. All GPUs Power : 43.832 W
+[codecarbon INFO @ 10:31:34] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:31:34] 0.000543 kWh of electricity used since the begining.
+[codecarbon INFO @ 10:31:38] [setup] RAM Tracking...
+[codecarbon INFO @ 10:31:38] [setup] GPU Tracking...
+[codecarbon INFO @ 10:31:38] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 10:31:38] [setup] CPU Tracking...
+[codecarbon ERROR @ 10:31:38] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 10:31:38] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 10:31:38] Tracking Intel CPU via RAPL interface
+[codecarbon ERROR @ 10:31:39] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:1/energy_uj'
+[codecarbon ERROR @ 10:31:39] Unable to read Intel RAPL files for CPU power, we will use a constant for your CPU power. Please view https://github.com/mlco2/codecarbon/issues/244 for workarounds : [Errno 13] Permission denied: '/sys/class/powercap/intel-rapl/intel-rapl:0/energy_uj'
+[codecarbon INFO @ 10:31:39] >>> Tracker's metadata:
+[codecarbon INFO @ 10:31:39]   Platform system: Linux-5.15.0-88-generic-x86_64-with-glibc2.35
+[codecarbon INFO @ 10:31:39]   Python version: 3.10.12
+[codecarbon INFO @ 10:31:39]   Available RAM : 503.522 GB
+[codecarbon INFO @ 10:31:39]   CPU count: 104
+[codecarbon INFO @ 10:31:39]   CPU model: Intel(R) Xeon(R) Gold 5320 CPU @ 2.20GHz
+[codecarbon INFO @ 10:31:39]   GPU count: 4
+[codecarbon INFO @ 10:31:39]   GPU model: 4 x NVIDIA RTX A6000
+  0%|          | 0/22500 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/expertai/Sinan/lex-glue/./experiments/ecthr.py", line 524, in <module>
+    main()
+  File "/home/expertai/Sinan/lex-glue/./experiments/ecthr.py", line 467, in main
+    train_result = trainer.train(resume_from_checkpoint=checkpoint)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/transformers/trainer.py", line 1555, in train
+    return inner_training_loop(
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/transformers/trainer.py", line 1860, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/transformers/trainer.py", line 2734, in training_step
+    self.accelerator.backward(loss)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/accelerate/accelerator.py", line 1923, in backward
+    loss.backward(**kwargs)
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/home/expertai/Sinan/lex-glue/lexvenv/lib/python3.10/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 224.00 MiB (GPU 0; 47.54 GiB total capacity; 46.26 GiB already allocated; 202.88 MiB free; 46.33 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[codecarbon INFO @ 10:31:49] Energy consumed for RAM : 0.000120 kWh. RAM Power : 1.6868019104003906 W
+[codecarbon INFO @ 10:31:49] Energy consumed for all GPUs : 0.000714 kWh. All GPUs Power : 68.787 W
+[codecarbon INFO @ 10:31:49] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:31:49] 0.000835 kWh of electricity used since the begining.
+[codecarbon INFO @ 10:31:58] Energy consumed for RAM : 0.000787 kWh. RAM Power : 188.82078981399536 W
+[codecarbon INFO @ 10:31:58] Energy consumed for all GPUs : 0.002874 kWh. All GPUs Power : 689.59 W
+[codecarbon INFO @ 10:31:58] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:31:58] 0.003660 kWh of electricity used since the begining.
+[codecarbon INFO @ 10:32:04] Energy consumed for RAM : 0.000127 kWh. RAM Power : 1.6868720054626465 W
+[codecarbon INFO @ 10:32:04] Energy consumed for all GPUs : 0.000806 kWh. All GPUs Power : 22.082 W
+[codecarbon INFO @ 10:32:04] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:32:04] 0.000934 kWh of electricity used since the begining.
+[codecarbon INFO @ 10:32:13] Energy consumed for RAM : 0.001573 kWh. RAM Power : 188.82078981399536 W
+[codecarbon INFO @ 10:32:13] Energy consumed for all GPUs : 0.005532 kWh. All GPUs Power : 638.931 W
+[codecarbon INFO @ 10:32:13] Energy consumed for all CPUs : 0.000000 kWh. All CPUs Power : 0.0 W
+[codecarbon INFO @ 10:32:13] 0.007105 kWh of electricity used since the begining.
+Killed
+logs/ecthr_a exists!
+                                     VALIDATION                                      | TEST
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                  bert-base-uncased: MICRO-F1: 18.4	 ± 0.0	MACRO-F1: 7.5	 ± 0.0	 | MICRO-F1: 16.2	MACRO-F1: 11.9	
+                       roberta-base: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+             microsoft/deberta-base: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+       allenai/longformer-base-4096: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+        google/bigbird-roberta-base: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+    nlpaueb/legal-bert-base-uncased: MICRO-F1: 70.7	 ± 0.0	MACRO-F1: 63.3	 ± 0.0	 | MICRO-F1: 17.7	MACRO-F1: 9.7	
+            zlucia/custom-legalbert: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+                      roberta-large: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+            distilbert-base-uncased: MICRO-F1: 65.1	 ± 0.0	MACRO-F1: 61.3	 ± 0.0	 | MICRO-F1: 18.6	MACRO-F1: 11.5	
+                               gpt2: MICRO-F1: 62.7	 ± 0.0	MACRO-F1: 57.8	 ± 0.0	 | MICRO-F1: 59.8	MACRO-F1: 52.5	
+         NousResearch/Llama-2-7b-hf: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+        NousResearch/Llama-2-13b-hf: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
+          mistralai/Mistral-7B-v0.1: MICRO-F1: nan	 ± nan	MACRO-F1: nan	 ± nan	 | MICRO-F1: nan	MACRO-F1: nan	
