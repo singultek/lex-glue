@@ -35,6 +35,7 @@ from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
 from peft import LoraConfig, TaskType, get_peft_model
+from dotenv import load_dotenv
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -147,6 +148,9 @@ def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     peft_config = LoraConfig(task_type=TaskType.CAUSAL_LM, inference_mode=False, r=8, lora_alpha=32, lora_dropout=0.1)
+    if model_args.use_auth_token:
+        load_dotenv()
+        os.getenv("HF_TOKEN")
 
     # Setup distant debugging if needed
     if data_args.server_ip and data_args.server_port:

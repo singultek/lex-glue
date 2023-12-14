@@ -38,6 +38,7 @@ from transformers.utils.versions import require_version
 from models.hierbert import HierarchicalBert
 from models.deberta import DebertaForSequenceClassification
 from peft import LoraConfig, TaskType, get_peft_model
+from dotenv import load_dotenv
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -173,6 +174,9 @@ def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     peft_config = LoraConfig(task_type=TaskType.CAUSAL_LM, inference_mode=False, r=8, lora_alpha=32, lora_dropout=0.1)
+    if model_args.use_auth_token:
+        load_dotenv()
+        os.getenv("HF_TOKEN")
 
     # Fix boolean parameter
     if model_args.do_lower_case == 'False' or not model_args.do_lower_case:
@@ -529,17 +533,4 @@ def main():
 
 
 if __name__ == "__main__":
-    from codecarbon import EmissionsTracker
-
-    tracker = EmissionsTracker(project_name=f'bert_pretrained_ecthr_a', gpu_ids=[3], tracking_mode='process', api_call_interval=-1)
-    
-    tracker.start()
-
     main()
-
-    tracker.stop()
-    emission_results = tracker.final_emissions_data
-
-    print(f'Duration(sec): {emission_results.duration} - '
-          f'Energy(KWh): {emission_results.energy_consumed} - '
-          f'Emission CO2(Kg): {emission_results.emissions}')
