@@ -37,6 +37,7 @@ from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
 from models.deberta import DebertaForSequenceClassification
+from peft import LoraConfig, TaskType, get_peft_model
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -124,6 +125,9 @@ class ModelArguments:
     hierarchical: bool = field(
         default=True, metadata={"help": "Whether to use a hierarchical variant or not"}
     )
+    lora: bool = field(
+        default=False, metadata={"help": "Whether to use a Lora Adapters or not"}
+    )
     config_name: Optional[str] = field(
         default=None, metadata={"help": "Pretrained config name or path if not the same as model_name"}
     )
@@ -162,6 +166,7 @@ def main():
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+    peft_config = LoraConfig(task_type=TaskType.CAUSAL_LM, inference_mode=False, r=8, lora_alpha=32, lora_dropout=0.1)
 
     # Setup distant debugging if needed
     if data_args.server_ip and data_args.server_port:
@@ -310,6 +315,13 @@ def main():
             pass
         else:
             raise NotImplementedError(f"{config.model_type} is no supported yet!")
+
+    if model_args.lora:
+        model = get_peft_model(model, peft_config)
+        trainable_params, all_param = model.get_nb_trainable_parameters()
+        logger.warning(f"Lora Adapters are activated! -- "
+                       f"trainable params: {trainable_params:,d} || all params: {all_param:,d} || "
+                       f"trainable%: {100 * trainable_params / all_param}")
 
     # freeze, or not, LM parameters
     for param in model.base_model.parameters():
