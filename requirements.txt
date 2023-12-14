@@ -10,3 +10,4 @@ codecarbon==2.1.4
 dill~=0.3.5.1
 filelock~=3.8.0
 peft~=0.7.1
+python-dotenv~=1.0.0
