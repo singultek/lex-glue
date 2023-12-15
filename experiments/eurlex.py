@@ -253,7 +253,7 @@ def main():
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
-    if config.model_type == 'gpt2':
+    if config.model_type == 'gpt2' or config.model_type == "llama":
         tokenizer.pad_token = tokenizer.eos_token
         model.config.pad_token_id = model.config.eos_token_id
 
@@ -413,7 +413,7 @@ def main():
 
 if __name__ == "__main__":
     from codecarbon import EmissionsTracker
-    tracker = EmissionsTracker(project_name=f'bert_finetuned_eurlex', gpu_ids=[3], tracking_mode='process', api_call_interval=-1)
+    tracker = EmissionsTracker(project_name=f'bert_finetuned_eurlex', gpu_ids=[2], tracking_mode='process', api_call_interval=-1)
     tracker.start()
 
     main()

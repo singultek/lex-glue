@@ -293,7 +293,7 @@ def main():
             revision=model_args.model_revision,
             use_auth_token=True if model_args.use_auth_token else None,
         )
-    if config.model_type == 'gpt2' or config.model_type == 'mistral':
+    if config.model_type == 'gpt2' or config.model_type == "llama" or config.model_type == 'mistral':
         tokenizer.pad_token = tokenizer.eos_token
         model.config.pad_token_id = model.config.eos_token_id
 
@@ -533,4 +533,16 @@ def main():
 
 
 if __name__ == "__main__":
+    from codecarbon import EmissionsTracker
+
+    tracker = EmissionsTracker(project_name=f'bert_finetuned_ledgar',gpu_ids=[1], tracking_mode='process', api_call_interval=-1)
+    tracker.start()
+
     main()
+
+    tracker.stop()
+    emission_results = tracker.final_emissions_data
+
+    print(f'Duration(sec): {emission_results.duration} - '
+          f'Energy(KWh): {emission_results.energy_consumed} - '
+          f'Emission CO2(Kg): {emission_results.emissions}')

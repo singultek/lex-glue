@@ -284,7 +284,7 @@ def main():
             revision=model_args.model_revision,
             use_auth_token=True if model_args.use_auth_token else None,
         )
-    if config.model_type == 'gpt2' or config.model_type == 'mistral':
+    if config.model_type == 'gpt2' or config.model_type == 'llama' or config.model_type == 'mistral':
         tokenizer.pad_token = tokenizer.eos_token
         model.config.pad_token_id = model.config.eos_token_id
 
