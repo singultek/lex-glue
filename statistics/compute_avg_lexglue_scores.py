@@ -16,16 +16,19 @@ def main():
     config = parser.parse_args()
 
     MODELS = ['bert-base-uncased', 'roberta-base', 'microsoft/deberta-base', 'allenai/longformer-base-4096',
-              'google/bigbird-roberta-base', 'nlpaueb/legal-bert-base-uncased', 'zlucia/custom-legalbert', 'roberta-large']
+              'google/bigbird-roberta-base', 'nlpaueb/legal-bert-base-uncased', 'zlucia/custom-legalbert', 'roberta-large', 
+              'distilbert-base-uncased', 'gpt2-large', 'meta-llama/Llama-2-7b-hf', 'meta-llama/Llama-2-13b-hf']
     DATASETS = ['ecthr_a', 'ecthr_b', 'eurlex', 'scotus', 'ledgar', 'unfair_tos', 'casehold']
-    MODEL_NAMES = ['BERT', 'RoBERTa', 'DeBERTa', 'Longformer', 'BigBird', 'Legal-BERT', 'CaseLaw-BERT', 'RoBERTa']
+    MODEL_NAMES = ['BERT', 'RoBERTa', 'DeBERTa', 'Longformer', 'BigBird', 'Legal-BERT', 'CaseLaw-BERT', 'RoBERTa', 
+            'Distil-BERT', 'GPT2-Large', 'LLAMA2-7B', 'LLAMA2-7B']
 
     score_dicts = {model: {'dev': {'micro': [], 'macro': []}, 'test': {'micro': [], 'macro': []}}
                    for model in MODELS}
 
     for model in MODELS:
         for dataset in DATASETS:
-            BASE_DIR = f'/Users/rwg642/Desktop/LEXGLUE/RESULTS/{dataset}'
+            #BASE_DIR = f'/Users/rwg642/Desktop/LEXGLUE/RESULTS/{dataset}'
+            BASE_DIR = f'logs/{dataset}'
 
             score_dict = {'dev': {'micro': [], 'macro': []},
                           'test': {'micro': [], 'macro': []}}
