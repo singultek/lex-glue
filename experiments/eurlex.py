@@ -265,8 +265,8 @@ def main():
                        f"trainable%: {100 * trainable_params / all_param}")
 
     # freeze, or not, LM parameters
-    for param in model.base_model.parameters():
-        param.requires_grad = True
+    #for param in model.base_model.parameters():
+    #    param.requires_grad = True
 
     # Preprocessing the datasets
     # Padding strategy

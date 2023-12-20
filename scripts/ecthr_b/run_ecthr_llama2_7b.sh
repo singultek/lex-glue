@@ -1,4 +1,4 @@
-GPU_NUMBER=3
+GPU_NUMBER=2
 MODEL_NAME='meta-llama/Llama-2-7b-hf'
 LOWER_CASE='True'
 BATCH_SIZE=1
