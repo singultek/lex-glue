@@ -35,6 +35,7 @@ from transformers import (
 from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
+from transformers import BitsAndBytesConfig
 from models.hierbert import HierarchicalBert
 from models.deberta import DebertaForSequenceClassification
 from peft import LoraConfig, TaskType, get_peft_model
@@ -135,6 +136,9 @@ class ModelArguments:
     lora: bool = field(
         default=False, metadata={"help": "Whether to use a Lora Adapters or not"}
     )
+    quantize: bool = field(
+        default=False, metadata={"help": "Whether to quantize 4-bit or not"}
+    )
     config_name: Optional[str] = field(
         default=None, metadata={"help": "Pretrained config name or path if not the same as model_name"}
     )
@@ -174,6 +178,7 @@ def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     peft_config = LoraConfig(task_type=TaskType.CAUSAL_LM, inference_mode=False, r=8, lora_alpha=32, lora_dropout=0.1)
+    bnb_config = BitsAndBytesConfig(load_in_4bit=True)
     if model_args.use_auth_token:
         load_dotenv()
         os.getenv("HF_TOKEN")
@@ -241,15 +246,15 @@ def main():
     # download the dataset.
     # Downloading and loading eurlex dataset from the hub.
     if training_args.do_train:
-        train_dataset = load_dataset("lex_glue", name=data_args.task, split="train", data_dir='data',
+        train_dataset = load_dataset("lex_glue", name=data_args.task, split="train",
                                      cache_dir=model_args.cache_dir)
 
     if training_args.do_eval:
-        eval_dataset = load_dataset("lex_glue", name=data_args.task, split="validation", data_dir='data',
+        eval_dataset = load_dataset("lex_glue", name=data_args.task, split="validation",
                                     cache_dir=model_args.cache_dir)
 
     if training_args.do_predict:
-        predict_dataset = load_dataset("lex_glue", name=data_args.task, split="test", data_dir='data',
+        predict_dataset = load_dataset("lex_glue", name=data_args.task, split="test",
                                        cache_dir=model_args.cache_dir)
 
     # Labels
@@ -283,6 +288,7 @@ def main():
             cache_dir=model_args.cache_dir,
             revision=model_args.model_revision,
             use_auth_token=True if model_args.use_auth_token else None,
+            quantization_config=bnb_config if model_args.quantize else None,
         )
     else:
         model = AutoModelForSequenceClassification.from_pretrained(
@@ -292,6 +298,7 @@ def main():
             cache_dir=model_args.cache_dir,
             revision=model_args.model_revision,
             use_auth_token=True if model_args.use_auth_token else None,
+            quantization_config=bnb_config if model_args.quantize else None,
         )
     if config.model_type == 'gpt2' or config.model_type == "llama" or config.model_type == 'mistral':
         tokenizer.pad_token = tokenizer.eos_token
